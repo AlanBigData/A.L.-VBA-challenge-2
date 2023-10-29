@@ -1,36 +1,34 @@
+'Button to reset the entire workbook'
 Sub Reset_Worksheets_Button():
+
     Dim ws As Worksheet
     For Each ws In ThisWorkbook.Worksheets
-        ' Clear contents in range I:P
         ws.Range("I:P").ClearContents
-        ' Clear cell interior color (background color)
         ws.Range("I:P").Interior.ColorIndex = xlNone
     Next ws
+    
 End Sub
-
+'Button to complete the entire workbook'
 Sub All_Stock_WS_Button():
+
     Application.ScreenUpdating = True
     For Each ws In Worksheets
         ws.Activate
-        ws.Range("I:Q").EntireColumn.AutoFit
-        ws.Range("P4").NumberFormat = "#,##0"
-        ws.Range("G:G").NumberFormat = "#,##0"
-        ws.Range("L:L").NumberFormat = "#,##0"
+        ws.Range("A:Q").EntireColumn.AutoFit
+        ws.Range("P4, G:G, L:L").NumberFormat = "#,##0"
         Call Stock_WS
     Next ws
+    
 End Sub
-
-' Create ProcessWS to force variables out of scope between sheets.
+' Process variables between sheets'
 Sub Stock_WS():
-    ' Set up headers
+
     Range("I1:L1") = Array("Ticker", "Yearly Change", "Percent Change", "Total Stock Volume")
     Range("O1:P1") = Array("Ticker", "Value")
     Range("N2:N4") = Application.Transpose(Array("Greatest % Increase", "Greatest % Decrease", "Greatest Total Volume"))
     Range("J:J").NumberFormat = "0.00"
     Range("K:K, P2:P3").NumberFormat = "0.00%"
     
-    
-    ' Define variables
     Dim ticker As String
     Dim open_price, year_changing, percent_update, volume_total As Double
     Dim increased_ticker, decreased_ticker, vol_ticker As String
@@ -38,20 +36,18 @@ Sub Stock_WS():
     Dim input_row As Long
     Dim output_row As Integer
     
-    ' Establish initial conditions
     ticker = Range("A2")
     open_price = Range("C2")
     volume_total = Range("G2")
     input_row = 3
     output_row = 2
     
-    While (ticker <> "") ' Loop until there is no more data
-        While (ticker = Cells(input_row, 1)) ' Loop until arriving at the next ticker symbol
+    While (ticker <> "")
+        While (ticker = Cells(input_row, 1))
             volume_total = volume_total + Cells(input_row, 7)
             input_row = input_row + 1
         Wend
         
-        ' Assign results to output cells
         year_changing = Cells(input_row - 1, 6) - open_price
         percent_update = year_changing / open_price
         Cells(output_row, 9) = ticker
@@ -84,15 +80,11 @@ Sub Stock_WS():
         output_row = output_row + 1
     Wend
     
-    ' Assign overall results
     Range("O2") = increased_ticker
     Range("P2") = best_increase
     Range("O3") = decreased_ticker
     Range("P3") = best_decrease
     Range("O4") = vol_ticker
     Range("P4") = best_vol
+    
 End Sub
-
-
-
-
