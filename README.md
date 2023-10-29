@@ -1,1 +1,2 @@
-# A.L.-VBA-challenge-2
+Alan Lawrence 
+VBA Code Challenge # 2 Completed
