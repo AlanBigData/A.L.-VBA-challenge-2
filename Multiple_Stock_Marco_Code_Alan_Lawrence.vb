@@ -6,8 +6,10 @@ Sub Reset_Worksheets_Button():
         ws.Range("I:P").ClearContents
         ws.Range("I:P").Interior.ColorIndex = xlNone
     Next ws
+    ThisWorkbook.Sheets("2018").Activate
     
 End Sub
+
 'Button to complete the entire workbook'
 Sub All_Stock_WS_Button():
 
@@ -18,8 +20,10 @@ Sub All_Stock_WS_Button():
         ws.Range("P4, G:G, L:L").NumberFormat = "#,##0"
         Call Stock_WS
     Next ws
+    ThisWorkbook.Sheets("2018").Activate
     
 End Sub
+
 ' Process variables between sheets'
 Sub Stock_WS():
 
